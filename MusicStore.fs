@@ -23,6 +23,7 @@ let browse =
 let webPart =
   choose [
     path Path.home >=> (OK View.index)
+    pathRegex "(.*)\.(css|png)" >=> Files.browseHome
     path Path.Store.overview >=> (OK "Store")
     path Path.Store.browse >=> browse
     pathScan Path.Store.details (fun id -> OK (sprintf "Details %d" id))

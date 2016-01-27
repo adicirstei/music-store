@@ -37,23 +37,6 @@
     <DocumentationFile>bin\Release\MusicStore.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="Suave.Experimental">
-      <HintPath>packages\Suave.Experimental\lib\net40\Suave.Experimental.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="Suave">
-      <HintPath>packages\Suave\lib\net40\Suave.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Path.fs" />
-    <Compile Include="View.fs" />
-    <Compile Include="MusicStore.fs" />
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -88,5 +71,27 @@
       </ItemGroup>
     </When>
   </Choose>
-
+  <ItemGroup>
+    <Compile Include="Path.fs" />
+    <Compile Include="View.fs" />
+    <Compile Include="MusicStore.fs" />
+    <Content Include="Site.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="Suave.Experimental">
+      <HintPath>packages\Suave.Experimental\lib\net40\Suave.Experimental.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="Suave">
+      <HintPath>packages\Suave\lib\net40\Suave.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
