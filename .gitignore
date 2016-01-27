@@ -1,0 +1,8 @@
+.fake
+.paket
+.vs
+bin
+build
+deploy
+obj
+packages
