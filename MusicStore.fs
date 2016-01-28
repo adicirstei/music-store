@@ -20,9 +20,13 @@ let browse =
   )
 
 
+let html container =
+  OK (View.index container)
+
+
 let webPart =
   choose [
-    path Path.home >=> (OK View.index)
+    path Path.home >=> html View.home
     pathRegex "(.*)\.(css|png)" >=> Files.browseHome
     path Path.Store.overview >=> (OK "Store")
     path Path.Store.browse >=> browse
