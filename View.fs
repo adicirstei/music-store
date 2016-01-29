@@ -33,8 +33,12 @@ let details id = [
   h2 <| sprintf "Details: %d" id
 ]
 
-let browse genre = [
-  h2 <| sprintf "Genre: %s" genre
+let browse genre (albums : Db.Album list) = [
+  h2 (sprintf "Genre: %s" genre)
+  ul [
+    for a in albums ->
+      li (aHref (sprintf Path.Store.details a.AlbumId) (text a.Title))
+  ]
 ]
 
 let index container =
