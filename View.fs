@@ -8,22 +8,33 @@ let cssLink href = linkAttr [ "href", href; " rel", "stylesheet"; " type", "text
 let divId id = divAttr ["id", id]
 let h1 xml = tag "h1" [] xml
 let aHref href = tag "a" ["href", href]
+let h2 = (tag "h2" []) << text
+let ul xml = tag "ul" [] (flatten xml)
+let li = tag "li" []
+
 
 let home = [
-  text "<h1>Home</h1>"
+  h2 "Home"
 ]
 
 
-let store = [
-  text "Store"
+let store genres = [
+  h2 "Browse Genres"
+  p [
+    text (sprintf "Select from %d genres:" (List.length genres))
+  ]
+  ul [
+    for g in genres ->
+      li (aHref (Path.Store.browse |> Path.withParam (Path.Store.browseKey, g)) (text g))
+  ]
 ]
 
 let details id = [
-  text <| sprintf "Details: %d" id
+  h2 <| sprintf "Details: %d" id
 ]
 
 let browse genre = [
-  text <| sprintf "Genre: %s" genre
+  h2 <| sprintf "Genre: %s" genre
 ]
 
 let index container =

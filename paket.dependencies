@@ -4,3 +4,4 @@ framework >= net45
 nuget FAKE
 nuget Suave 1.0.0
 nuget Suave.Experimental 1.0.0
+nuget SQLProvider

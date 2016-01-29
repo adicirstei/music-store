@@ -4,6 +4,7 @@ NUGET
   specs:
     FAKE (4.17.1)
     FSharp.Core (4.0.0.1)
+    SQLProvider (0.0.11-alpha)
     Suave (1.0.0)
       FSharp.Core (>= 3.1.2.5)
     Suave.Experimental (1.0.0)
