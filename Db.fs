@@ -35,3 +35,6 @@ let getAlbumDetails id (ctx : DbContext) : AlbumDetails option =
       where (album.AlbumId = id)
       select album
   } |> firstOrNone
+
+let getAlbumsDetails (ctx : DbContext) : AlbumDetails list =
+  ctx.Dbo.AlbumDetails |> Seq.toList
