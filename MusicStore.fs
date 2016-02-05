@@ -56,6 +56,7 @@ let webPart =
     path Path.Store.overview >=> overview
     path Path.Store.browse >=> browse
     pathScan Path.Store.details details
+    pathScan Path.Admin.deleteAlbum deleteAlbum
 
     path Path.Admin.manage >=> manage
 
@@ -64,6 +65,20 @@ let webPart =
   ]
 
 
+let deleteAlbum id =
+  let ctx = Db.getContext()
+  match Db.getAlbum id ctx with
+    | Some album ->
+      choose [
+        GET >=> warbler (fun _ ->
+          html (View.deleteAlbum album.Title))
+        POST >=> warbler (fun _ ->
+          Db.deleteAlbum album ctx;
+          Redirection.FOUND Path.Admin.manage)
+      ]
+
+    | None ->
+      never
 
 
 

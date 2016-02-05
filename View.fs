@@ -18,6 +18,11 @@ let table x = tag "table" [] (flatten x)
 let th x = tag "th" [] (flatten x)
 let tr x = tag "tr" [] (flatten x)
 let td x = tag "td" [] (flatten x)
+let strong s = tag "strong" [] (text s)
+let form x = tag "form" ["method","POST"] (flatten x)
+let submitInput value = inputAttr ["type", "submit"; "value", value]
+
+
 
 let formatDec (d : Decimal) = d.ToString (Globalization.CultureInfo.InvariantCulture)
 
@@ -110,6 +115,25 @@ let manage (albums : Db.AlbumDetails list) = [
     tr [
       for t in [ truncate 25 album.Artist; truncate 25 album.Title; album.Genre; formatDec album.Price ] ->
         td [ text t ]
+      yield td [
+        aHref (sprintf Path.Admin.deleteAlbum album.AlbumId) (text "Delete")
+      ]
     ]
+  ]
+]
+
+let deleteAlbum albumName = [
+  h2 "Delete confirmation"
+  p [
+    text "Are you sure you want to delete album titled"
+    br
+    strong albumName
+    text "?"
+  ]
+  form [
+    submitInput "Delete"
+  ]
+  div [
+    aHref Path.Admin.manage (text "Back to list")
   ]
 ]
