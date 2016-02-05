@@ -50,21 +50,6 @@ let manage = warbler (fun _ ->
   |> html)
 
 
-let webPart =
-  choose [
-    path Path.home >=> html View.home
-    path Path.Store.overview >=> overview
-    path Path.Store.browse >=> browse
-    pathScan Path.Store.details details
-    pathScan Path.Admin.deleteAlbum deleteAlbum
-
-    path Path.Admin.manage >=> manage
-
-    pathRegex "(.*)\.(css|png|gif)" >=> Files.browseHome
-    html View.notFound
-  ]
-
-
 let deleteAlbum id =
   let ctx = Db.getContext()
   match Db.getAlbum id ctx with
@@ -79,6 +64,26 @@ let deleteAlbum id =
 
     | None ->
       never
+
+
+
+let webPart =
+  choose [
+    path Path.home >=> html View.home
+    path Path.Store.overview >=> overview
+    path Path.Store.browse >=> browse
+    pathScan Path.Store.details details
+
+
+    path Path.Admin.manage >=> manage
+    pathScan Path.Admin.deleteAlbum deleteAlbum
+
+
+    pathRegex "(.*)\.(css|png|gif)" >=> Files.browseHome
+    html View.notFound
+  ]
+
+
 
 
 
