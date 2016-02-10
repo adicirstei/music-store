@@ -14,8 +14,12 @@ type DbContext = Sql.dataContext
 type Album = DbContext.``dbo.AlbumsEntity``
 type Genre = DbContext.``dbo.GenresEntity``
 type AlbumDetails = DbContext.``dbo.AlbumDetailsEntity``
+type Artist = DbContext.``dbo.ArtistsEntity``
 
 let firstOrNone s = s |> Seq.tryFind (fun _ -> true)
+
+let getArtists (ctx : DbContext) : Artist list =
+  ctx.Dbo.Artists |> Seq.toList
 
 let getGenres (ctx : DbContext) : Genre list =
   ctx.Dbo.Genres |> Seq.toList
@@ -49,4 +53,8 @@ let getAlbum id (ctx:DbContext) : Album option =
 
 let deleteAlbum (album: Album) (ctx :DbContext) =
   album.Delete()
+  ctx.SubmitUpdates()
+
+let createAlbum (artistId, genreId, price, title) (ctx : DbContext) =
+  ctx.Dbo.Albums.Create (artistId, genreId, price, title) |> ignore
   ctx.SubmitUpdates()
