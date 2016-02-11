@@ -64,6 +64,35 @@ let renderForm (layout:FormLayout<_>) =
     yield submitInput layout.SubmitText
   ]
 
+let editAlbum (album:Db.Album) genres artists = [
+  h2 "Edit"
+
+  renderForm {
+    Form = Form.album
+    Fieldsets =
+      [
+        {
+          Legend = "Album"
+          Fields =
+                [ { Label = "Genre"
+                    Xml = selectInput (fun f -> <@ f.GenreId @>) genres (Some (decimal album.GenreId))}
+                  { Label = "Artist"
+                    Xml = selectInput (fun f -> <@ f.ArtistId @>) artists (Some (decimal album.ArtistId))}
+                  { Label = "Genre"
+                    Xml = selectInput (fun f -> <@ f.GenreId @>) genres (Some (decimal album.GenreId))}
+                ]
+        }
+      ]
+    SubmitText = "Save Changes" }
+  div [
+    aHref Path.Admin.manage (text "Back to list")
+  ]
+]
+
+
+
+
+
 let createAlbum genres artists = [
   h2 "Create"
   renderForm
@@ -178,12 +207,17 @@ let manage (albums : Db.AlbumDetails list) = [
   table [
     yield tr [
       for t in ["Artist"; "Title"; "Genre"; "Price"] -> th [ text t ]
+      yield th [text "Action"]
     ]
     for album in albums ->
     tr [
       for t in [ truncate 25 album.Artist; truncate 25 album.Title; album.Genre; formatDec album.Price ] ->
         td [ text t ]
       yield td [
+        aHref (sprintf Path.Admin.editAlbum album.AlbumId) (text "Edit")
+        text "|"
+        aHref (sprintf Path.Store.details album.AlbumId) (text "Details")
+        text "|"
         aHref (sprintf Path.Admin.deleteAlbum album.AlbumId) (text "Delete")
       ]
     ]

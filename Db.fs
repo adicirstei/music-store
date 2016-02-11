@@ -58,3 +58,11 @@ let deleteAlbum (album: Album) (ctx :DbContext) =
 let createAlbum (artistId, genreId, price, title) (ctx : DbContext) =
   ctx.Dbo.Albums.Create (artistId, genreId, price, title) |> ignore
   ctx.SubmitUpdates()
+
+
+let updateAlbum (album : Album) (artistId, genreId, price, title) (ctx : DbContext) =
+  album.ArtistId <- artistId
+  album.GenreId <- genreId
+  album.Price <- price
+  album.Title <- title
+  ctx.SubmitUpdates()

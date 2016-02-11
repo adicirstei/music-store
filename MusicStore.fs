@@ -72,6 +72,26 @@ let deleteAlbum id =
 let bindToForm form handler =
   bindReq (bindForm form) handler BAD_REQUEST
 
+let editAlbum id =
+  let ctx = Db.getContext()
+  match Db.getAlbum id ctx with
+  | Some album ->
+    choose [
+      GET >=> warbler (fun _ ->
+        let genres =
+          Db.getGenres ctx
+          |> List.map (fun g -> decimal g.GenreId, g.Name)
+        let artists =
+          Db.getArtists ctx
+          |> List.map (fun g -> decimal g.ArtistId, g.Name)
+        html (View.editAlbum album genres artists))
+      POST >=> bindToForm Form.album (fun form ->
+        Db.updateAlbum album (int form.ArtistId, int form.GenreId, form.Price, form.Title) ctx
+        Redirection.FOUND Path.Admin.manage)
+    ]
+  | None -> never
+
+
 let createAlbum =
   let ctx = Db.getContext()
   choose [
@@ -102,6 +122,7 @@ let webPart =
     path Path.Admin.manage >=> manage
     pathScan Path.Admin.deleteAlbum deleteAlbum
     path Path.Admin.createAlbum >=> createAlbum
+    pathScan Path.Admin.editAlbum editAlbum
 
     pathRegex "(.*)\.(css|png|gif)" >=> Files.browseHome
     html View.notFound
